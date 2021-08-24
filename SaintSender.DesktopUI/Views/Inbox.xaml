@@ -8,5 +8,12 @@
         Title="Inbox" Height="450" Width="800">
     <Grid>
         <Label Content="{Binding test}"/>
+        <ListView ItemsSource="{Binding Emails}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Message" DisplayMemberBinding="{Binding Path=Message}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
