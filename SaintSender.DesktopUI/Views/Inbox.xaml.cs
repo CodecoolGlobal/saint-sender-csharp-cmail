@@ -11,7 +11,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SaintSender.DesktopUI.Views
@@ -19,7 +18,7 @@ namespace SaintSender.DesktopUI.Views
     /// <summary>
     /// Interaction logic for Inbox.xaml
     /// </summary>
-    public partial class Inbox : Page
+    public partial class Inbox : Window
     {
         private InboxViewModel _vm;
 

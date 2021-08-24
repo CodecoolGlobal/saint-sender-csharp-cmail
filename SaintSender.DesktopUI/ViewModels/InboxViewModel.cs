@@ -8,5 +8,12 @@ namespace SaintSender.DesktopUI.ViewModels
 {
     class InboxViewModel
     {
+         
+        public string test { get; set; }
+
+        public InboxViewModel()
+        {
+            this.test = "kiskutya";
+        }
     }
 }
