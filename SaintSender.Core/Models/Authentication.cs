@@ -3,6 +3,7 @@
     using MailKit;
     using MailKit.Net.Imap;
     using System;
+    using System.Net;
 
     /// <summary>
     /// Defines the <see cref="Authentication" />.
@@ -21,15 +22,18 @@
         {
             if (email == "" && password == "")
             {
-                return "There is no email and password!";
+                return "Password and email requiered";
             }
             else if (email == "")
             {
-                return "There is no email!";
+                return "Email requiered";
             }
             else if (password == "")
             {
-                return "There is no password!";
+                return "Password requiered";
+            } else if (CheckForInternetConnection())
+            {
+                return "No internet connection";
             }
             using (var client = new ImapClient())
             {
@@ -40,11 +44,16 @@
                     client.Authenticate(email, password);
                     account = new Account(email, password);
                 }
-                catch (MailKit.Security.AuthenticationException e)
+                catch (Exception e)
                 {
-                    return "Invalid username/password!";
+                    if (e is MailKit.Security.AuthenticationException)
+                    {
+                        return "Invalid username/password";
+                    } else if (e is System.Net.Sockets.SocketException)
+                    {
+                        return "No internet connection";
+                    }
                 }
-
                 return "Succesful login";
             }
         }
@@ -64,17 +73,22 @@
                 IMailFolder inbox = client.Inbox;
                 inbox.Open(FolderAccess.ReadOnly);
 
-                Console.WriteLine("Total messages: {0}", inbox.Count);
-                Console.WriteLine("Recent messages: {0}", inbox.Recent);
-
-                for (int i = 0; i < inbox.Count; i++)
-                {
-                    var message = inbox.GetMessage(i);
-                    Console.WriteLine("Subject: {0}", message.Subject);
-                }
-
                 client.Disconnect(true);
                 return inbox;
+            }
+        }
+
+        public static bool CheckForInternetConnection()
+        {
+            try
+            {
+                using (var client = new WebClient())
+                using (client.OpenRead("http://google.com/generate_204"))
+                    return true;
+            }
+            catch
+            {
+                return false;
             }
         }
     }
