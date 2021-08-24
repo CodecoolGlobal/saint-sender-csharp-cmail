@@ -7,12 +7,9 @@
     /// <summary>
     /// Defines the <see cref="Authentication" />.
     /// </summary>
-    internal class Authentication
+    static internal class Authentication
     {
-        /// <summary>
-        /// Defines the account.
-        /// </summary>
-        private Account account;
+        private static Account account;
 
         /// <summary>
         /// The AuthenticateAccount.
@@ -20,7 +17,7 @@
         /// <param name="email">The email<see cref="string"/>.</param>
         /// <param name="password">The password<see cref="string"/>.</param>
         /// <returns>The <see cref="string"/>.</returns>
-        public string AuthenticateAccount(string email, string password)
+        public static string AuthenticateAccount(string email, string password)
         {
             if (email == "" && password == "")
             {
