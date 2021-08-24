@@ -18,10 +18,12 @@ namespace SaintSender.DesktopUI
             InitializeComponent();
         }
 
-        private void GreetBtn_Click(object sender, RoutedEventArgs e)
+        private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
             // dispatch user interaction to view model
-            _vm.Greet();
+            
+            _vm.Login(passwordBox.Password);
+     
         }
     }
 }
