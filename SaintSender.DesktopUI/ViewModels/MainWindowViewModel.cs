@@ -76,7 +76,7 @@ namespace SaintSender.DesktopUI.ViewModels
 
         public void Login(string password)
         {
-            Message = _passwordService.Authenticate(Name, password);
+            Message = _accountService.Authenticate(Name, password);
             Inbox inbox = new Inbox();
             inbox.Show();
         }
