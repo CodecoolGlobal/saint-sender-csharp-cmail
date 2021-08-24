@@ -1,6 +1,7 @@
 ﻿using SaintSender.Core.Interfaces;
 using SaintSender.Core.Services;
 using System.ComponentModel;
+using System.Threading;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -12,6 +13,8 @@ namespace SaintSender.DesktopUI.ViewModels
     {
         private string _name;
         private string _greeting;
+        private string _password;
+        private readonly IAccountService _passwordService;
         private readonly IGreetService _greetService;
 
         /// <summary>
@@ -45,18 +48,34 @@ namespace SaintSender.DesktopUI.ViewModels
             }
         }
 
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                _password = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Password)));
+            }
+        }
+
         public MainWindowViewModel()
         {
             Name = string.Empty;
             _greetService = new GreetService();
+            _passwordService = new AccountService();
         }
 
         /// <summary>
-        /// Call a vendor service and apply its value into <see cref="Greeting"/> property.
+        /// Call a vendor service and apply its value into <see cref="Password"/> property.
         /// </summary>
         public void Greet()
         {
             Greeting = _greetService.Greet(Name);
+        }
+
+        public void Login(string password)
+        {
+            Password = _passwordService.AuthenticateAccount(Name, password);
         }
     }
 }
