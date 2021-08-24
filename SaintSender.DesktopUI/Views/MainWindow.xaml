@@ -7,13 +7,16 @@
         mc:Ignorable="d"
         Title="SainSender"
         Height="450"
-        Width="800">
+        Width="800"
+        Loaded="Window_ContentRendered">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="62*"/>
             <RowDefinition Height="357*"/>
         </Grid.RowDefinitions>
-        <TextBox Text="{Binding Name}"
+        <TextBox 
+                 Name="Email"
+                 Text="{Binding Name}"
                  ToolTip="Write a email address here."
                  HorizontalAlignment="Left"
                  Height="23"
@@ -37,9 +40,10 @@
                 Click="LoginBtn_Click" Grid.Row="1" />
         <TextBlock Text="{Binding Message}"
                    HorizontalAlignment="Left"
-                   Margin="296,127,0,0"
+                   Margin="296,37,0,0"
                    FontSize="13"
                    TextWrapping="NoWrap"
                    VerticalAlignment="Top" Grid.Row="1" Width="197" Height="29" />
+        <CheckBox x:Name="Checkbox" Content="Remember me" HorizontalAlignment="Left" Margin="296,132,0,0" Grid.Row="1" VerticalAlignment="Top"/>
     </Grid>
 </Window>

@@ -10,7 +10,9 @@
     /// </summary>
     static public class Authentication
     {
-        private static Account account;
+        private static Account _account;
+
+        public static Account Account { get => _account; }
 
         /// <summary>
         /// The AuthenticateAccount.
@@ -31,9 +33,6 @@
             else if (password == "")
             {
                 return "Password requiered";
-            } else if (CheckForInternetConnection())
-            {
-                return "No internet connection";
             }
             using (var client = new ImapClient())
             {
@@ -42,14 +41,15 @@
                 try
                 {
                     client.Authenticate(email, password);
-                    account = new Account(email, password);
+                    _account = new Account(email, password);
                 }
                 catch (Exception e)
                 {
                     if (e is MailKit.Security.AuthenticationException)
                     {
                         return "Invalid username/password";
-                    } else if (e is System.Net.Sockets.SocketException)
+                    }
+                    else if (e is System.Net.Sockets.SocketException)
                     {
                         return "No internet connection";
                     }
@@ -69,26 +69,12 @@
             {
                 client.Connect("imap.gmail.com", 993, true);
 
-                client.Authenticate(account.Email, account.Password);
+                client.Authenticate(_account.Email, _account.Password);
                 IMailFolder inbox = client.Inbox;
                 inbox.Open(FolderAccess.ReadOnly);
 
                 client.Disconnect(true);
                 return inbox;
-            }
-        }
-
-        public static bool CheckForInternetConnection()
-        {
-            try
-            {
-                using (var client = new WebClient())
-                using (client.OpenRead("http://google.com/generate_204"))
-                    return true;
-            }
-            catch
-            {
-                return false;
             }
         }
     }
