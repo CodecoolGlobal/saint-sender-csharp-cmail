@@ -17,7 +17,7 @@ namespace SaintSender.Core.Services
     {
         public string Authenticate(string email, string password)
         {
-            throw new NotImplementedException();
+            return Authentication.AuthenticateAccount(email, password);
         }
 
         public string HashPassword(string password)
