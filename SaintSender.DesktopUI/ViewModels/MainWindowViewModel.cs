@@ -1,5 +1,6 @@
 ﻿using SaintSender.Core.Interfaces;
 using SaintSender.Core.Services;
+using SaintSender.DesktopUI.Views;
 using System.ComponentModel;
 using System.Threading;
 
@@ -75,7 +76,9 @@ namespace SaintSender.DesktopUI.ViewModels
 
         public void Login(string password)
         {
-            Message = _accountService.Authenticate(Name, password);
+            Message = _passwordService.Authenticate(Name, password);
+            Inbox inbox = new Inbox();
+            inbox.Show();
         }
     }
 }

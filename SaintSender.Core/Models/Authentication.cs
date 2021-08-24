@@ -7,7 +7,7 @@
     /// <summary>
     /// Defines the <see cref="Authentication" />.
     /// </summary>
-    static internal class Authentication
+    static public class Authentication
     {
         private static Account account;
 
@@ -45,7 +45,6 @@
                     return "Invalid username/password!";
                 }
 
-                IMailFolder inbox = GetInbox(client);
                 return "Succesful login";
             }
         }
@@ -55,22 +54,28 @@
         /// </summary>
         /// <param name="client">The client<see cref="ImapClient"/>.</param>
         /// <returns>The <see cref="IMailFolder"/>.</returns>
-        private static IMailFolder GetInbox(ImapClient client)
+        public static IMailFolder GetInbox()
         {
-            IMailFolder inbox = client.Inbox;
-            inbox.Open(FolderAccess.ReadOnly);
-
-            Console.WriteLine("Total messages: {0}", inbox.Count);
-            Console.WriteLine("Recent messages: {0}", inbox.Recent);
-
-            for (int i = 0; i < inbox.Count; i++)
+            using (var client = new ImapClient())
             {
-                var message = inbox.GetMessage(i);
-                Console.WriteLine("Subject: {0}", message.Subject);
-            }
+                client.Connect("imap.gmail.com", 993, true);
 
-            client.Disconnect(true);
-            return inbox;
+                client.Authenticate(account.Email, account.Password);
+                IMailFolder inbox = client.Inbox;
+                inbox.Open(FolderAccess.ReadOnly);
+
+                Console.WriteLine("Total messages: {0}", inbox.Count);
+                Console.WriteLine("Recent messages: {0}", inbox.Recent);
+
+                for (int i = 0; i < inbox.Count; i++)
+                {
+                    var message = inbox.GetMessage(i);
+                    Console.WriteLine("Subject: {0}", message.Subject);
+                }
+
+                client.Disconnect(true);
+                return inbox;
+            }
         }
     }
 }
