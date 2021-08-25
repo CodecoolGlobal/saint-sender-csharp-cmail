@@ -64,6 +64,13 @@ namespace SaintSender.DesktopUI.ViewModels
 
             //    this.Emails.Add(new Email(message, sender, date, subject, read));
             //}
+
+
+        }
+
+        public void ForgetAccount()
+        {
+            Isolate.DeleteFromIsolatedStorage();
         }
     }
 }

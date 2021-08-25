@@ -94,9 +94,6 @@ namespace SaintSender.DesktopUI.ViewModels
             Isolate.SaveIntoIsolatedStorage(account);
         }
 
-        public void ForgetAccount()
-        {
-            Isolate.DeleteFromIsolatedStorage();
-        }
+        
     }
 }

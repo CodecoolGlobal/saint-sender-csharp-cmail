@@ -4,6 +4,7 @@
     using MailKit.Net.Imap;
     using System;
     using System.Collections.ObjectModel;
+    using System.Linq;
 
     /// <summary>
     /// Defines the <see cref="Authentication" />.
@@ -94,6 +95,7 @@
 
                     emails.Add(new Email(message, sender, date, subject, read));
                 }
+                emails.Reverse();
 
                 client.Disconnect(true);
                 return emails;

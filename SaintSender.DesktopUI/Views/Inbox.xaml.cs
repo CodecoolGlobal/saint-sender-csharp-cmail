@@ -29,5 +29,10 @@ namespace SaintSender.DesktopUI.Views
             DataContext = _vm;
             InitializeComponent();
         }
+
+        private void ForgetMeButton_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.ForgetAccount();
+        }
     }
 }
