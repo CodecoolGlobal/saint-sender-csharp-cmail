@@ -34,5 +34,10 @@ namespace SaintSender.DesktopUI.Views
         {
             _vm.ForgetAccount();
         }
+
+        private void SendEmailButton_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.SendEmail();
+        }
     }
 }
