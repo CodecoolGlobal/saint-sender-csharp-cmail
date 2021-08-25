@@ -1,5 +1,6 @@
 ﻿using MailKit;
 using SaintSender.Core.Models;
+using SaintSender.DesktopUI.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -67,6 +68,12 @@ namespace SaintSender.DesktopUI.ViewModels
             //}
 
 
+        }
+
+        internal void OpenDetails()
+        {
+            Details details = new Details();
+            details.Show();
         }
 
         internal void SendEmail()
