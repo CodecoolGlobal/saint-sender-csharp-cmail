@@ -3,6 +3,7 @@
     using MailKit;
     using MailKit.Net.Imap;
     using System;
+    using System.Collections.ObjectModel;
 
     /// <summary>
     /// Defines the <see cref="Authentication" />.
@@ -54,8 +55,9 @@
         /// </summary>
         /// <param name="client">The client<see cref="ImapClient"/>.</param>
         /// <returns>The <see cref="IMailFolder"/>.</returns>
-        public static IMailFolder GetInbox()
+        public static ObservableCollection<Email> GetInbox()
         {
+            ObservableCollection<Email> emails = new ObservableCollection<Email>();
             using (var client = new ImapClient())
             {
                 client.Connect("imap.gmail.com", 993, true);
@@ -71,10 +73,22 @@
                 {
                     var message = inbox.GetMessage(i);
                     Console.WriteLine("Subject: {0}", message.Subject);
+                    Console.WriteLine(message.TextBody);
+                }
+
+                foreach (var email in inbox)
+                {
+                    string message = email.TextBody;
+                    string sender = email.From.ToString();
+                    DateTime date = email.Date.Date;
+                    string subject = email.Subject;
+                    bool read = false;
+
+                    emails.Add(new Email(message, sender, date, subject, read));
                 }
 
                 client.Disconnect(true);
-                return inbox;
+                return emails;
             }
         }
     }
