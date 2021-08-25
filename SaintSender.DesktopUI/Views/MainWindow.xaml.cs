@@ -1,7 +1,5 @@
 ﻿using SaintSender.Core.Models;
 using SaintSender.DesktopUI.ViewModels;
-using System.IO;
-using System.IO.IsolatedStorage;
 using System.Windows;
 
 namespace SaintSender.DesktopUI
@@ -24,7 +22,8 @@ namespace SaintSender.DesktopUI
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {            
             _vm.Login(Email.Text, passwordBox.Password);
-           
+            Close();
+
             if ((bool)Checkbox.IsChecked)
             {
                 _vm.StoreAccount(Authentication.Account);
@@ -38,6 +37,7 @@ namespace SaintSender.DesktopUI
             {
                 Account account = Isolate.ReadFromIsolatedStorage();
                 _vm.Login(account.Email, account.Password);
+                Close();
             }
         }
     }

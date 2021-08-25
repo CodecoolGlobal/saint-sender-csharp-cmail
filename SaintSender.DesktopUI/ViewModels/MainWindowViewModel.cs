@@ -81,7 +81,6 @@ namespace SaintSender.DesktopUI.ViewModels
             
             if (Message == "Succesful login") 
             {
-
                 Inbox inbox = new Inbox();
                 inbox.Show();
             }
