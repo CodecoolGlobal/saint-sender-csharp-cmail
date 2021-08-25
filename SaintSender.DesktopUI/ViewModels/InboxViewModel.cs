@@ -1,5 +1,6 @@
 ﻿using MailKit;
 using SaintSender.Core.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
@@ -64,6 +65,18 @@ namespace SaintSender.DesktopUI.ViewModels
 
             //    this.Emails.Add(new Email(message, sender, date, subject, read));
             //}
+
+
+        }
+
+        internal void SendEmail()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ForgetAccount()
+        {
+            Isolate.DeleteFromIsolatedStorage();
         }
     }
 }
