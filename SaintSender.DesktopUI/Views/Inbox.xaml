@@ -11,7 +11,11 @@
         <ListView ItemsSource="{Binding Emails}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Message" DisplayMemberBinding="{Binding Path=Message}"/>
+                    <GridViewColumn Width="auto" Header="Read" DisplayMemberBinding="{Binding Path=Read}"/>
+                    <GridViewColumn Width="auto" Header="Date" DisplayMemberBinding="{Binding Path=Date}"/>
+                    <GridViewColumn Width="auto" Header="Sender" DisplayMemberBinding="{Binding Path=Sender}"/>
+                    <GridViewColumn Width="auto" Header="Subject" DisplayMemberBinding="{Binding Path=Subject}"/>
+                    <GridViewColumn Width="auto" Header="Message" DisplayMemberBinding="{Binding Path=Message}"/>
                 </GridView>
             </ListView.View>
         </ListView>
