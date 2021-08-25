@@ -10,7 +10,9 @@
     /// </summary>
     static public class Authentication
     {
-        private static Account account;
+        private static Account _account;
+
+        public static Account Account { get => _account; }
 
         /// <summary>
         /// The AuthenticateAccount.
@@ -22,15 +24,15 @@
         {
             if (email == "" && password == "")
             {
-                return "There is no email and password!";
+                return "Password and email requiered";
             }
             else if (email == "")
             {
-                return "There is no email!";
+                return "Email requiered";
             }
             else if (password == "")
             {
-                return "There is no password!";
+                return "Password requiered";
             }
             using (var client = new ImapClient())
             {
@@ -39,13 +41,19 @@
                 try
                 {
                     client.Authenticate(email, password);
-                    account = new Account(email, password);
+                    _account = new Account(email, password);
                 }
-                catch (MailKit.Security.AuthenticationException e)
+                catch (Exception e)
                 {
-                    return "Invalid username/password!";
+                    if (e is MailKit.Security.AuthenticationException)
+                    {
+                        return "Invalid username/password";
+                    }
+                    else if (e is System.Net.Sockets.SocketException)
+                    {
+                        return "No internet connection";
+                    }
                 }
-
                 return "Succesful login";
             }
         }
@@ -62,7 +70,7 @@
             {
                 client.Connect("imap.gmail.com", 993, true);
 
-                client.Authenticate(account.Email, account.Password);
+                client.Authenticate(_account.Email, _account.Password);
                 IMailFolder inbox = client.Inbox;
                 inbox.Open(FolderAccess.ReadOnly);
 

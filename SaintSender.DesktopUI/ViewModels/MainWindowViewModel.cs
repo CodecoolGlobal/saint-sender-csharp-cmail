@@ -1,6 +1,8 @@
 ﻿using SaintSender.Core.Interfaces;
+using SaintSender.Core.Models;
 using SaintSender.Core.Services;
 using SaintSender.DesktopUI.Views;
+using System;
 using System.ComponentModel;
 using System.Threading;
 
@@ -15,7 +17,7 @@ namespace SaintSender.DesktopUI.ViewModels
         private string _name;
         private string _greeting;
         private string _message;
-        private readonly IAccountService _passwordService;
+        private readonly IAccountService _accountService;
         private readonly IGreetService _greetService;
 
         /// <summary>
@@ -63,7 +65,7 @@ namespace SaintSender.DesktopUI.ViewModels
         {
             Name = string.Empty;
             _greetService = new GreetService();
-            _passwordService = new AccountService();
+            _accountService = new AccountService();
         }
 
         /// <summary>
@@ -74,12 +76,27 @@ namespace SaintSender.DesktopUI.ViewModels
             Greeting = _greetService.Greet(Name);
         }
 
-        public void Login(string password)
+        public void Login(string name, string password)
         {
-            Message = _passwordService.Authenticate(Name, password);
-            Inbox inbox = new Inbox();
-            inbox.Show();
+            Thread thread = Thread.CurrentThread;
+            thread.Name = "Main";
+            Message = _accountService.Authenticate(name, password);
+            
+            if (Message == "Succesful login")
+            {
+                Inbox inbox = new Inbox();
+                inbox.Show();
+            }
+        }
 
+        public void StoreAccount(Account account)
+        {
+            Isolate.SaveIntoIsolatedStorage(account);
+        }
+
+        public void ForgetAccount()
+        {
+            Isolate.DeleteFromIsolatedStorage();
         }
     }
 }

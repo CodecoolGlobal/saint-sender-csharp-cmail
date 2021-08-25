@@ -1,4 +1,5 @@
-﻿using SaintSender.DesktopUI.ViewModels;
+﻿using SaintSender.Core.Models;
+using SaintSender.DesktopUI.ViewModels;
 using System.Windows;
 
 namespace SaintSender.DesktopUI
@@ -19,11 +20,25 @@ namespace SaintSender.DesktopUI
         }
 
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
+        {            
+            _vm.Login(Email.Text, passwordBox.Password);
+            Close();
+
+            if ((bool)Checkbox.IsChecked)
+            {
+                _vm.StoreAccount(Authentication.Account);
+            }
+        }
+
+        private void Window_ContentRendered(object sender, System.EventArgs e)
         {
-            // dispatch user interaction to view model
-            
-            _vm.Login(passwordBox.Password);
-     
+
+            if (Isolate.isoStore.FileExists("AccountStore.txt") == true)
+            {
+                Account account = Isolate.ReadFromIsolatedStorage();
+                _vm.Login(account.Email, account.Password);
+                Close();
+            }
         }
     }
 }
