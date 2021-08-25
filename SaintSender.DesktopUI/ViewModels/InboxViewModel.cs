@@ -15,6 +15,7 @@ namespace SaintSender.DesktopUI.ViewModels
         private ObservableCollection<Email> _emails;
 
         public string test { get; set; }
+        public Email SelectedEmail { get; set; }
 
         public ObservableCollection<Email> Emails
         {
@@ -72,7 +73,10 @@ namespace SaintSender.DesktopUI.ViewModels
 
         internal void OpenDetails()
         {
-            Details details = new Details();
+            // hardcoded email
+            SelectedEmail = Emails[0];
+
+            Details details = new Details(SelectedEmail);
             details.Show();
         }
 

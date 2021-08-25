@@ -42,6 +42,7 @@ namespace SaintSender.DesktopUI.Views
 
         private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            // how do i pass the email as a parameter?
             _vm.OpenDetails();
         }
     }

@@ -1,4 +1,5 @@
-﻿using SaintSender.DesktopUI.ViewModels;
+﻿using SaintSender.Core.Models;
+using SaintSender.DesktopUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,10 @@ namespace SaintSender.DesktopUI.Views
     {
         private DetailsViewModel _vm;
 
-        public Details()
+        public Details(Email email)
         {
             // set DataContext to the ViewModel object
-            _vm = new DetailsViewModel();
+            _vm = new DetailsViewModel(email);
             DataContext = _vm;
             InitializeComponent();
         }

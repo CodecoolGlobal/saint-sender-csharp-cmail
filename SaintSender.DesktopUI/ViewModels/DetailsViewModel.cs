@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SaintSender.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,10 +13,12 @@ namespace SaintSender.DesktopUI.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string test { get; set; }
+        public Email email { get; set; }
 
-        public DetailsViewModel()
+        public DetailsViewModel(Email email)
         {
-            this.test = "közepes kutya";
+            this.email = email;
+            this.test = email.Message;
         }
     }
 }
