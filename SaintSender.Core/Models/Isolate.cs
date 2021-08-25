@@ -8,7 +8,7 @@ namespace SaintSender.Core.Models
 {
     public static class Isolate
     {
-        private const string _accountFilePath = "AccoutStore.txt";
+        private const string _accountFilePath = "AccountStore.txt";
 
         public static IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
 
