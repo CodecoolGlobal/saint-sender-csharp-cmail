@@ -1,27 +1,23 @@
-﻿namespace SaintSender.Core.Models
-{
-    using SaintSender.Core.Services;
-    using System;
-    using System.IO;
-    using System.IO.IsolatedStorage;
-    using System.Threading;
+﻿using SaintSender.Core.Services;
+using System;
+using System.IO;
+using System.IO.IsolatedStorage;
+using System.Threading;
 
-    /// <summary>
-    /// Defines the <see cref="Isolate" />.
-    /// </summary>
-    static public class Isolate
+namespace SaintSender.Core.Models
+{
+    public static class Isolate
     {
+        private const string _accountFilePath = "AccoutStore.txt";
 
         public static IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
-        /// <summary>
-        /// The SaveIntoIsolatedStorage.
-        /// </summary>
-        /// <param name="account">The account<see cref="Account"/>.</param>
-        static public void SaveIntoIsolatedStorage(Account account)
-        {
-            isoStore.DeleteFile("AccountStore.txt");
 
-            using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("AccountStore.txt", FileMode.CreateNew, isoStore))
+        public static void SaveIntoIsolatedStorage(Account account)
+        {
+            if (isoStore.FileExists(_accountFilePath))
+                isoStore.DeleteFile(_accountFilePath);
+
+            using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(_accountFilePath, FileMode.CreateNew, isoStore))
             {
                 using (StreamWriter writer = new StreamWriter(isoStream))
                 {
@@ -33,23 +29,22 @@
             }
         }
 
-        static public Account ReadFromIsolatedStorage()
+        public static Account ReadFromIsolatedStorage()
         {
-            using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("AccountStore.txt", FileMode.Open, isoStore))
+            using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(_accountFilePath, FileMode.Open, isoStore))
             {
                 using (StreamReader reader = new StreamReader(isoStream))
                 {
                     Console.WriteLine("Reading contents:");
-                    
                     return new Account(reader.ReadLine(), reader.ReadLine());
                 }
             }
         }
 
 
-        static public void DeleteFromIsolatedStorage()
+        public static void DeleteFromIsolatedStorage()
         {
-            isoStore.DeleteFile("AccountStore.txt");
+            isoStore.DeleteFile(_accountFilePath);
         }
     }
 }
