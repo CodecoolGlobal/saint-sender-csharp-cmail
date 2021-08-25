@@ -45,5 +45,11 @@
                 }
             }
         }
+
+
+        static public void DeleteFromIsolatedStorage()
+        {
+            isoStore.DeleteFile("AccountStore.txt");
+        }
     }
 }

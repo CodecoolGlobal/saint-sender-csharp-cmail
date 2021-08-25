@@ -4,6 +4,7 @@ using SaintSender.Core.Services;
 using SaintSender.DesktopUI.Views;
 using System;
 using System.ComponentModel;
+using System.Threading;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -77,9 +78,11 @@ namespace SaintSender.DesktopUI.ViewModels
 
         public void Login(string name, string password)
         {
+            Thread thread = Thread.CurrentThread;
+            thread.Name = "Main";
             Message = _accountService.Authenticate(name, password);
             
-            if (Message == "Succesful login") 
+            if (Message == "Succesful login")
             {
                 Inbox inbox = new Inbox();
                 inbox.Show();
@@ -89,6 +92,11 @@ namespace SaintSender.DesktopUI.ViewModels
         public void StoreAccount(Account account)
         {
             Isolate.SaveIntoIsolatedStorage(account);
+        }
+
+        public void ForgetAccount()
+        {
+            Isolate.DeleteFromIsolatedStorage();
         }
     }
 }

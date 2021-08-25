@@ -13,11 +13,11 @@ namespace SaintSender.Core.Services
         public string HashPassword(string password)
         {
             return BCrypt.Net.BCrypt.HashPassword(password);
-		}
+        }
 
         public bool VerifyPassword(string password)
         {
-            throw new System.NotImplementedException();
+            return BCrypt.Net.BCrypt.Verify(password, HashPassword(password));
         }
     }
 }
