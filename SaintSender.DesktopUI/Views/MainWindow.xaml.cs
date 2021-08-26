@@ -33,11 +33,14 @@ namespace SaintSender.DesktopUI
         private void Window_ContentRendered(object sender, System.EventArgs e)
         {
 
-            if (Isolate.isoStore.FileExists("AccountStore.txt") == true)
+            if (Isolate.isoStore.FileExists(Isolate._accountFilePath))
             {
                 Account account = Isolate.ReadFromIsolatedStorage();
-                _vm.Login(account.Email, account.Password);
-                Close();
+                if (!(account is null))
+                {
+                    _vm.Login(account.Email, account.Password);
+                    Close();
+                }
             }
         }
     }

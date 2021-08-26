@@ -8,7 +8,7 @@ namespace SaintSender.Core.Models
 {
     public static class Isolate
     {
-        private const string _accountFilePath = "AccountStore.txt";
+        public const string _accountFilePath = "AccountStore.txt";
 
         public static IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
 
@@ -31,6 +31,8 @@ namespace SaintSender.Core.Models
 
         public static Account ReadFromIsolatedStorage()
         {
+            if (!isoStore.FileExists(_accountFilePath))
+                return null;
             using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(_accountFilePath, FileMode.Open, isoStore))
             {
                 using (StreamReader reader = new StreamReader(isoStream))

@@ -1,4 +1,5 @@
 ﻿using MailKit;
+using System.Windows;
 using SaintSender.Core.Models;
 using SaintSender.DesktopUI.Views;
 using System;
@@ -28,7 +29,6 @@ namespace SaintSender.DesktopUI.ViewModels
         {
             //Emails = new ObservableCollection<Email>();
             Emails = Authentication.GetInbox();
-
             //IMailFolder inbox = Authentication.GetInbox();
 
             //this.Emails.Add(new Email("lorem ipsum dolor sit amet", "mr.sender", DateTime.Now, "serious subject", false));
