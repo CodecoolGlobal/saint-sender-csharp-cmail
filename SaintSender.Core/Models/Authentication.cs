@@ -2,6 +2,7 @@ using MailKit;
 using MailKit.Net.Imap;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace SaintSender.Core.Models
 {
