@@ -69,6 +69,11 @@ namespace SaintSender.DesktopUI.ViewModels
 
         }
 
+        internal void SyncOffline()
+        {
+            Isolate.SaveMail(_emails, Authentication.GetAddress());
+        }
+
         internal void SendEmail()
         {
             throw new NotImplementedException();

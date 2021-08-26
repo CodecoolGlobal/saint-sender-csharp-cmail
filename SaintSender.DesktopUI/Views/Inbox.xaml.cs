@@ -28,10 +28,16 @@ namespace SaintSender.DesktopUI.Views
             login.Show();
             Close();
         }
+
+        private void SyncOffline(object sender, RoutedEventArgs e)
+        {
+            _vm.SyncOffline();
+        }
         
         private void ForgetMeButton_Click(object sender, RoutedEventArgs e)
         {
             _vm.ForgetAccount();
+            Logout(null, null);
         }
 
         private void SendEmailButton_Click(object sender, RoutedEventArgs e)

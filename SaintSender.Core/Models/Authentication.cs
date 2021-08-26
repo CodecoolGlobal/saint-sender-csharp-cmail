@@ -9,6 +9,7 @@ namespace SaintSender.Core.Models
     static public class Authentication
     {
         private static Account _account;
+        private static bool isOffline = false;
 
         public static Account Account { get => _account; }
 
@@ -20,10 +21,10 @@ namespace SaintSender.Core.Models
             }
             using (var client = new ImapClient())
             {
-                client.Connect("imap.gmail.com", 993, true);
 
                 try
                 {
+                    client.Connect("imap.gmail.com", 993, true);
                     client.Authenticate(email, password);
                     _account = new Account(email, password);
                 }
@@ -41,9 +42,23 @@ namespace SaintSender.Core.Models
                 return StatusCodes.auth_success;
             }
         }
+        public static void OpenOffline(string email)
+        {
+            _account = new Account(email, "");
+            isOffline = true;
+        }
+
+        public static string GetAddress()
+        {
+            return Account.Email;
+        }
 
         public static ObservableCollection<Email> GetInbox()
         {
+            if (isOffline)
+            {
+                return Isolate.ReadCache(_account.Email);
+            }
             ObservableCollection<Email> emails = new ObservableCollection<Email>();
             using (var client = new ImapClient())
             {
@@ -70,8 +85,9 @@ namespace SaintSender.Core.Models
                     DateTime date = email.Date.Date;
                     string subject = email.Subject;
                     bool read = false;
+                    string id = email.MessageId;
 
-                    emails.Add(new Email(message, sender, date, subject, read));
+                    emails.Add(new Email(message, sender, date, subject, read, id));
                 }
                 emails.Reverse();
 

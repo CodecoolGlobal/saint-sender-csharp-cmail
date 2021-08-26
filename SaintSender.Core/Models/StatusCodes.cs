@@ -3,7 +3,10 @@
     public enum StatusCodes
     {
         // authentication
-        auth_invalidcred, auth_missingcred, auth_success, auth_nonet
+        auth_invalidcred, auth_missingcred, auth_success, auth_nonet,
+
+        // offline functionality
+        offline_nologin, offline_nocache, offline_nocacheforlogin,
     }
 
     public static class StatusCodeParser
@@ -20,6 +23,10 @@
                     return "Login successful!";
                 case StatusCodes.auth_nonet:
                     return "Your device cannot access the Internet. Check that your device is connected to the Internet and try again.";
+                case StatusCodes.offline_nologin:
+                    return "No login is saved. Offline inbox access requires a saved login.";
+                case StatusCodes.offline_nocache:
+                    return "No offline inboxes available.";
                 default:
                     return "";
             }

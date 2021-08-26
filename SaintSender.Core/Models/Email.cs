@@ -9,14 +9,16 @@ namespace SaintSender.Core.Models
         public DateTime Date { get; set; }
         public string Subject { get; set; }
         public bool Read { get; set; }
+        public string ID { get; set; }
 
-        public Email(string message, string sender, DateTime date, string subject, bool read)
+        public Email(string message, string sender, DateTime date, string subject, bool read, string id)
         {
             Message = message;
             Sender = sender;
             Date = date;
             Subject = subject;
             Read = read;
+            ID = id.Split('@')[0];
         }
     }
 }

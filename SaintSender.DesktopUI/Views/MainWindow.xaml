@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaintSender.DesktopUI"
         mc:Ignorable="d"
-        Title="SainSender"
+        Title="CMail"
         Height="450"
         Width="800"
         Loaded="Window_ContentRendered">
@@ -38,12 +38,22 @@
                 Width="75"
                 Margin="343,155.724,0,0"
                 Click="LoginBtn_Click" Grid.Row="1" />
+        <Button x:Name="btn_offline"
+                Content="Start offline"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Width="75"
+                Margin="343,179.6,0,0"
+                Click="StartOffline" Grid.Row="1"
+                IsEnabled="False"
+                Opacity="0" />
         <TextBlock Text="{Binding Message}"
-                   HorizontalAlignment="Left"
-                   Margin="296,37,0,0"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   Margin="0,30,0,0"
                    FontSize="13"
-                   TextWrapping="NoWrap"
-                   VerticalAlignment="Top" Grid.Row="1" Width="197" Height="29" />
+                   TextWrapping="Wrap"
+                   VerticalAlignment="Top" Grid.Row="1" Width="320" Height="36" />
         <CheckBox x:Name="Checkbox" Content="Remember me" HorizontalAlignment="Left" Margin="296,132,0,0" Grid.Row="1" VerticalAlignment="Top"/>
     </Grid>
 </Window>
