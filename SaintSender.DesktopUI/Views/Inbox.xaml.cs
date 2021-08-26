@@ -1,4 +1,4 @@
-﻿using SaintSender.DesktopUI.ViewModels;
+using SaintSender.DesktopUI.ViewModels;
 using System;
 using SaintSender.Core.Models;
 using System.Windows;
@@ -27,6 +27,16 @@ namespace SaintSender.DesktopUI.Views
             MainWindow login = new MainWindow();
             login.Show();
             Close();
+        }
+        
+        private void ForgetMeButton_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.ForgetAccount();
+        }
+
+        private void SendEmailButton_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.SendEmail();
         }
     }
 }

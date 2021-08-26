@@ -1,4 +1,4 @@
-﻿using MailKit;
+using MailKit;
 using MailKit.Net.Imap;
 using System;
 using System.Collections.ObjectModel;
@@ -72,6 +72,7 @@ namespace SaintSender.Core.Models
 
                     emails.Add(new Email(message, sender, date, subject, read));
                 }
+                emails.Reverse();
 
                 client.Disconnect(true);
                 return emails;
