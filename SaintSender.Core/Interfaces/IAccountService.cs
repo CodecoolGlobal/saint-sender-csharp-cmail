@@ -1,10 +1,8 @@
-﻿using MailKit;
-
-namespace SaintSender.Core.Interfaces
+﻿namespace SaintSender.Core.Interfaces
 {
     public interface IAccountService
     {
-        string Authenticate(string email, string password);
+        Models.StatusCodes Authenticate(string email, string password);
 
         string HashPassword(string password);
 

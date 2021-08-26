@@ -1,4 +1,5 @@
 ﻿using SaintSender.Core.Models;
+using SaintSender.Core.Models.SaintSender.Core.Models;
 using SaintSender.DesktopUI.ViewModels;
 using System.Windows;
 
@@ -9,7 +10,7 @@ namespace SaintSender.DesktopUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MainWindowViewModel _vm;
+        private readonly MainWindowViewModel _vm;
 
         public MainWindow()
         {
@@ -33,11 +34,14 @@ namespace SaintSender.DesktopUI
         private void Window_ContentRendered(object sender, System.EventArgs e)
         {
 
-            if (Isolate.isoStore.FileExists("AccountStore.txt") == true)
+            if (Isolate.isoStore.FileExists(Isolate._accountFilePath))
             {
                 Account account = Isolate.ReadFromIsolatedStorage();
-                _vm.Login(account.Email, account.Password);
-                Close();
+                if (!(account is null))
+                {
+                    _vm.Login(account.Email, account.Password);
+                    Close();
+                }
             }
         }
     }

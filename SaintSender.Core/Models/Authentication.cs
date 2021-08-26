@@ -1,103 +1,102 @@
-﻿namespace SaintSender.Core.Models
+namespace SaintSender.Core.Models
 {
     using MailKit;
     using MailKit.Net.Imap;
+    using MailKit.Net.Smtp;
+    using MimeKit;
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;
 
-    /// <summary>
-    /// Defines the <see cref="Authentication" />.
-    /// </summary>
-    static public class Authentication
+    namespace SaintSender.Core.Models
     {
-        private static Account _account;
-
-        public static Account Account { get => _account; }
-
-        /// <summary>
-        /// The AuthenticateAccount.
-        /// </summary>
-        /// <param name="email">The email<see cref="string"/>.</param>
-        /// <param name="password">The password<see cref="string"/>.</param>
-        /// <returns>The <see cref="string"/>.</returns>
-        public static string AuthenticateAccount(string email, string password)
+        static public class Authentication
         {
-            if (email == "" && password == "")
-            {
-                return "Password and email requiered";
-            }
-            else if (email == "")
-            {
-                return "Email requiered";
-            }
-            else if (password == "")
-            {
-                return "Password requiered";
-            }
-            using (var client = new ImapClient())
-            {
-                client.Connect("imap.gmail.com", 993, true);
+            private static Account _account;
 
-                try
+            public static Account Account { get => _account; }
+
+            public static StatusCodes AuthenticateAccount(string email, string password)
+            {
+                if (email == "" || password == "")
                 {
-                    client.Authenticate(email, password);
-                    _account = new Account(email, password);
+                    return StatusCodes.auth_missingcred;
                 }
-                catch (Exception e)
+                using (var client = new ImapClient())
                 {
-                    if (e is MailKit.Security.AuthenticationException)
+                    client.Connect("imap.gmail.com", 993, true);
+
+                    try
                     {
-                        return "Invalid username/password";
+                        client.Authenticate(email, password);
+                        _account = new Account(email, password);
                     }
-                    else if (e is System.Net.Sockets.SocketException)
+                    catch (Exception e)
                     {
-                        return "No internet connection";
+                        if (e is MailKit.Security.AuthenticationException)
+                        {
+                            return StatusCodes.auth_invalidcred;
+                        }
+                        else if (e is System.Net.Sockets.SocketException)
+                        {
+                            return StatusCodes.auth_nonet;
+                        }
                     }
+                    return StatusCodes.auth_success;
                 }
-                return "Succesful login";
             }
-        }
 
-        /// <summary>
-        /// The GetInbox.
-        /// </summary>
-        /// <param name="client">The client<see cref="ImapClient"/>.</param>
-        /// <returns>The <see cref="IMailFolder"/>.</returns>
-        public static ObservableCollection<Email> GetInbox()
-        {
-            ObservableCollection<Email> emails = new ObservableCollection<Email>();
-            using (var client = new ImapClient())
+            public static ObservableCollection<Email> GetInbox()
             {
-                client.Connect("imap.gmail.com", 993, true);
-
-                client.Authenticate(_account.Email, _account.Password);
-                IMailFolder inbox = client.Inbox;
-                inbox.Open(FolderAccess.ReadOnly);
-
-                Console.WriteLine("Total messages: {0}", inbox.Count);
-                Console.WriteLine("Recent messages: {0}", inbox.Recent);
-
-                for (int i = 0; i < inbox.Count; i++)
+                ObservableCollection<Email> emails = new ObservableCollection<Email>();
+                using (var client = new ImapClient())
                 {
-                    var message = inbox.GetMessage(i);
-                    Console.WriteLine("Subject: {0}", message.Subject);
-                    Console.WriteLine(message.TextBody);
+                    client.Connect("imap.gmail.com", 993, true);
+
+                    client.Authenticate(_account.Email, _account.Password);
+                    IMailFolder inbox = client.Inbox;
+                    inbox.Open(FolderAccess.ReadOnly);
+
+                    foreach (var email in inbox)
+                    {
+                        string message = email.TextBody;
+                        string sender = email.From.ToString();
+                        DateTime date = email.Date.Date;
+                        string subject = email.Subject;
+                        bool read = false;
+
+                        emails.Add(new Email(message, sender, date, subject, read));
+                    }
+                    emails.Reverse();
+
+                    client.Disconnect(true);
+                    return emails;
                 }
 
-                foreach (var email in inbox)
+            }
+            public static void WriteEmail(Email email)
+            {
+
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress(_account.Email, _account.Email));
+                message.To.Add(new MailboxAddress(email.To, email.To));
+                message.Subject = email.Subject;
+
+                message.Body = new TextPart("plain")
                 {
-                    string message = email.TextBody;
-                    string sender = email.From.ToString();
-                    DateTime date = email.Date.Date;
-                    string subject = email.Subject;
-                    bool read = false;
+                    Text = email.Message
+                };
 
-                    emails.Add(new Email(message, sender, date, subject, read));
+                using (var client = new SmtpClient())
+                {
+                    client.Connect("smtp.gmail.com", 587, false);
+
+                    // Note: only needed if the SMTP server requires authentication
+                    client.Authenticate(_account.Email, _account.Password);
+
+                    client.Send(message);
+                    client.Disconnect(true);
                 }
-
-                client.Disconnect(true);
-                return emails;
             }
         }
     }

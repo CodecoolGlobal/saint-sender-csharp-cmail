@@ -1,10 +1,12 @@
 ﻿using MailKit;
+using System.Windows;
 using SaintSender.Core.Models;
 using SaintSender.DesktopUI.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using SaintSender.Core.Models.SaintSender.Core.Models;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -30,10 +32,8 @@ namespace SaintSender.DesktopUI.ViewModels
 
         public InboxViewModel()
         {
-            this.test = "kiskutya";
             //Emails = new ObservableCollection<Email>();
             Emails = Authentication.GetInbox();
-
             //IMailFolder inbox = Authentication.GetInbox();
 
             //this.Emails.Add(new Email("lorem ipsum dolor sit amet", "mr.sender", DateTime.Now, "serious subject", false));
@@ -81,9 +81,10 @@ namespace SaintSender.DesktopUI.ViewModels
             details.Show();
         }
 
-        internal void SendEmail()
+        internal void OpenSendEmailWindow()
         {
-            throw new NotImplementedException();
+            SendEmailWindow sendEmailWindow = new SendEmailWindow();
+            sendEmailWindow.Show();
         }
 
         public void ForgetAccount()
