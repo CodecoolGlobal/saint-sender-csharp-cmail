@@ -5,6 +5,7 @@ using SaintSender.DesktopUI.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using SaintSender.Core.Models.SaintSender.Core.Models;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
