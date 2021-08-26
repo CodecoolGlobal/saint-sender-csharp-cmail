@@ -78,8 +78,6 @@ namespace SaintSender.DesktopUI.ViewModels
 
         public void Login(string name, string password)
         {
-            Thread thread = Thread.CurrentThread;
-            thread.Name = "Main";
             Message = _accountService.Authenticate(name, password);
             
             if (Message == "Succesful login")

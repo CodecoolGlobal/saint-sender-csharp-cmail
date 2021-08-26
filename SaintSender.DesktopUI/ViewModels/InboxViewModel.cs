@@ -1,5 +1,6 @@
 ﻿using MailKit;
 using SaintSender.Core.Models;
+using SaintSender.DesktopUI.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,8 +14,6 @@ namespace SaintSender.DesktopUI.ViewModels
 
         private ObservableCollection<Email> _emails;
 
-        public string test { get; set; }
-
         public ObservableCollection<Email> Emails
         {
             get => _emails;
@@ -27,7 +26,6 @@ namespace SaintSender.DesktopUI.ViewModels
 
         public InboxViewModel()
         {
-            this.test = "kiskutya";
             //Emails = new ObservableCollection<Email>();
             Emails = Authentication.GetInbox();
 
@@ -69,9 +67,10 @@ namespace SaintSender.DesktopUI.ViewModels
 
         }
 
-        internal void SendEmail()
+        internal void OpenSendEmailWindow()
         {
-            throw new NotImplementedException();
+            SendEmailWindow sendEmailWindow = new SendEmailWindow();
+            sendEmailWindow.Show();
         }
 
         public void ForgetAccount()

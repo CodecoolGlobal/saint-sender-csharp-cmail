@@ -16,28 +16,23 @@ using System.Windows.Shapes;
 namespace SaintSender.DesktopUI.Views
 {
     /// <summary>
-    /// Interaction logic for Inbox.xaml
+    /// Interaction logic for SendEmailWindow.xaml
     /// </summary>
-    public partial class Inbox : Window
+    public partial class SendEmailWindow : Window
     {
-        private readonly InboxViewModel _vm;
 
-        public Inbox()
+        private readonly SendEmailViewModel _vm;
+        public SendEmailWindow()
         {
-            // set DataContext to the ViewModel object
-            _vm = new InboxViewModel();
+            _vm = new SendEmailViewModel();
             DataContext = _vm;
             InitializeComponent();
         }
 
-        private void ForgetMeButton_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _vm.ForgetAccount();
-        }
-
-        private void SendEmailButton_Click(object sender, RoutedEventArgs e)
-        {
-            _vm.OpenSendEmailWindow();
+            _vm.SendEmail();
+            Close();
         }
     }
 }
