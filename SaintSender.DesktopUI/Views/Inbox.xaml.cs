@@ -10,7 +10,7 @@ namespace SaintSender.DesktopUI.Views
     /// </summary>
     public partial class Inbox : Window
     {
-        private InboxViewModel _vm;
+        private readonly InboxViewModel _vm;
 
         public Inbox()
         {
@@ -36,7 +36,7 @@ namespace SaintSender.DesktopUI.Views
 
         private void SendEmailButton_Click(object sender, RoutedEventArgs e)
         {
-            _vm.SendEmail();
+            _vm.OpenSendEmailWindow();
         }
     }
 }

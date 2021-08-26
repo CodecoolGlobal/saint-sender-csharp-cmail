@@ -1,9 +1,11 @@
 ﻿using MailKit;
 using System.Windows;
 using SaintSender.Core.Models;
+using SaintSender.DesktopUI.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using SaintSender.Core.Models.SaintSender.Core.Models;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -13,8 +15,6 @@ namespace SaintSender.DesktopUI.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         private ObservableCollection<Email> _emails;
-
-        public string test { get; set; }
 
         public ObservableCollection<Email> Emails
         {
@@ -28,7 +28,6 @@ namespace SaintSender.DesktopUI.ViewModels
 
         public InboxViewModel()
         {
-            this.test = "kiskutya";
             //Emails = new ObservableCollection<Email>();
             Emails = Authentication.GetInbox();
             //IMailFolder inbox = Authentication.GetInbox();
@@ -69,9 +68,10 @@ namespace SaintSender.DesktopUI.ViewModels
 
         }
 
-        internal void SendEmail()
+        internal void OpenSendEmailWindow()
         {
-            throw new NotImplementedException();
+            SendEmailWindow sendEmailWindow = new SendEmailWindow();
+            sendEmailWindow.Show();
         }
 
         public void ForgetAccount()

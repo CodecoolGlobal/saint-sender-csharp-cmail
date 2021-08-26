@@ -9,6 +9,8 @@ namespace SaintSender.Core.Models
         public DateTime Date { get; set; }
         public string Subject { get; set; }
         public bool Read { get; set; }
+        public string To { get; set; }
+        public string CC { get; set; }
 
         public Email(string message, string sender, DateTime date, string subject, bool read)
         {
@@ -17,6 +19,14 @@ namespace SaintSender.Core.Models
             Date = date;
             Subject = subject;
             Read = read;
+        }
+
+        public Email(string message, string subject, string to, string cC)
+        {
+            Message = message;
+            Subject = subject;
+            To = to;
+            CC = cC;
         }
     }
 }
