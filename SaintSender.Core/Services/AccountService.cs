@@ -5,7 +5,7 @@ namespace SaintSender.Core.Services
 {
     public class AccountService : IAccountService
     {
-        public string Authenticate(string email, string password)
+        public StatusCodes Authenticate(string email, string password)
         {
             return Authentication.AuthenticateAccount(email, password);
         }

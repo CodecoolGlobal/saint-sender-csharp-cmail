@@ -1,38 +1,21 @@
-﻿namespace SaintSender.Core.Models
-{
-    using MailKit;
-    using MailKit.Net.Imap;
-    using System;
-    using System.Collections.ObjectModel;
+﻿using MailKit;
+using MailKit.Net.Imap;
+using System;
+using System.Collections.ObjectModel;
 
-    /// <summary>
-    /// Defines the <see cref="Authentication" />.
-    /// </summary>
+namespace SaintSender.Core.Models
+{
     static public class Authentication
     {
         private static Account _account;
 
         public static Account Account { get => _account; }
 
-        /// <summary>
-        /// The AuthenticateAccount.
-        /// </summary>
-        /// <param name="email">The email<see cref="string"/>.</param>
-        /// <param name="password">The password<see cref="string"/>.</param>
-        /// <returns>The <see cref="string"/>.</returns>
-        public static string AuthenticateAccount(string email, string password)
+        public static StatusCodes AuthenticateAccount(string email, string password)
         {
-            if (email == "" && password == "")
+            if (email == "" || password == "")
             {
-                return "Password and email requiered";
-            }
-            else if (email == "")
-            {
-                return "Email requiered";
-            }
-            else if (password == "")
-            {
-                return "Password requiered";
+                return StatusCodes.auth_missingcred;
             }
             using (var client = new ImapClient())
             {
@@ -47,22 +30,17 @@
                 {
                     if (e is MailKit.Security.AuthenticationException)
                     {
-                        return "Invalid username/password";
+                        return StatusCodes.auth_invalidcred;
                     }
                     else if (e is System.Net.Sockets.SocketException)
                     {
-                        return "No internet connection";
+                        return StatusCodes.auth_nonet;
                     }
                 }
-                return "Succesful login";
+                return StatusCodes.auth_success;
             }
         }
 
-        /// <summary>
-        /// The GetInbox.
-        /// </summary>
-        /// <param name="client">The client<see cref="ImapClient"/>.</param>
-        /// <returns>The <see cref="IMailFolder"/>.</returns>
         public static ObservableCollection<Email> GetInbox()
         {
             ObservableCollection<Email> emails = new ObservableCollection<Email>();

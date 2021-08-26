@@ -30,7 +30,7 @@ namespace SaintSender.DesktopUI.ViewModels
         /// </summary>
         public string Greeting
         {
-            get { return _greeting; }
+            get => _greeting;
             set
             {
                 _greeting = value;
@@ -80,9 +80,10 @@ namespace SaintSender.DesktopUI.ViewModels
         {
             Thread thread = Thread.CurrentThread;
             thread.Name = "Main";
-            Message = _accountService.Authenticate(name, password);
+            StatusCodes status = _accountService.Authenticate(name, password);
+            Message = StatusCodeParser.GetStatusMessage(status);
             
-            if (Message == "Succesful login")
+            if (status == StatusCodes.auth_success)
             {
                 Inbox inbox = new Inbox();
                 inbox.Show();
