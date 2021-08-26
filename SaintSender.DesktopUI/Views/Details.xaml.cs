@@ -22,6 +22,7 @@ namespace SaintSender.DesktopUI.Views
     public partial class Details : Window
     {
         private DetailsViewModel _vm;
+        private InboxViewModel _inboxViewModel;
 
         public Details(Email email)
         {
@@ -29,6 +30,11 @@ namespace SaintSender.DesktopUI.Views
             _vm = new DetailsViewModel(email);
             DataContext = _vm;
             InitializeComponent();
+        }
+
+        private void ReplyButton_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.ReplyMail();
         }
     }
 }

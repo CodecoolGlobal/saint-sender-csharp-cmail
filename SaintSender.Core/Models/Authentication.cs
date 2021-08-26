@@ -95,7 +95,6 @@
 
                     emails.Add(new Email(message, sender, date, subject, read));
                 }
-                emails.Reverse();
 
                 client.Disconnect(true);
                 return emails;

@@ -7,6 +7,16 @@
         mc:Ignorable="d"
         Title="Details" Height="450" Width="800">
     <Grid>
-        <Label Content="{Binding test}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="{Binding Sender}" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="1" Text="{Binding Subject}" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="2" Text="{Binding Date}" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="3" Text="{Binding Message}" VerticalAlignment="Center"/>
+        <Button x:Name="ReplyButton" Content="Reply" Width="50" Height="25" Click="ReplyButton_Click" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Right" VerticalAlignment="Center"/>
     </Grid>
 </Window>
