@@ -92,7 +92,5 @@ namespace SaintSender.DesktopUI.ViewModels
         {
             Isolate.SaveIntoIsolatedStorage(account);
         }
-
-        
     }
 }
