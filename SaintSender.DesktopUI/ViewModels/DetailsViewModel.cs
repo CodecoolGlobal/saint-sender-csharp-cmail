@@ -1,4 +1,6 @@
 ﻿using SaintSender.Core.Models;
+using SaintSender.Core.Models.SaintSender.Core.Models;
+using SaintSender.DesktopUI.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,8 +14,6 @@ namespace SaintSender.DesktopUI.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public InboxViewModel InboxViewModel { get; set; }
-
         public string Message { get; set; }
         public string Sender { get; set; }
         public DateTime Date { get; set; }
@@ -24,7 +24,6 @@ namespace SaintSender.DesktopUI.ViewModels
         public DetailsViewModel(Email email)
         {
             this.email = email;
-            //this.InboxViewModel = inboxViewModel;
 
             this.Message = email.Message;
             this.Sender = email.Sender;
@@ -34,7 +33,8 @@ namespace SaintSender.DesktopUI.ViewModels
 
         internal void ReplyMail()
         {
-            throw new NotImplementedException();
+            SendEmailWindow sendEmailWindow = new SendEmailWindow();
+            sendEmailWindow.Show();
         }
     }
 }

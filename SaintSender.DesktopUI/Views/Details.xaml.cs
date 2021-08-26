@@ -22,7 +22,6 @@ namespace SaintSender.DesktopUI.Views
     public partial class Details : Window
     {
         private DetailsViewModel _vm;
-        private InboxViewModel _inboxViewModel;
 
         public Details(Email email)
         {
