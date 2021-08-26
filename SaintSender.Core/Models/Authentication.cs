@@ -65,9 +65,8 @@ namespace SaintSender.Core.Models
                         string subject = email.Subject;
                         bool read = false;
 
-                        emails.Add(new Email(message, sender, date, subject, read));
-                    }
-                    emails.Reverse();
+                    emails.Add(new Email(message, sender, date, subject, read));
+                }
 
                     client.Disconnect(true);
                     return emails;

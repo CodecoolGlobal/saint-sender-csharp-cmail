@@ -11,14 +11,23 @@
             <RowDefinition MaxHeight="20" MinHeight="20"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Border Grid.Row="0">
-            <Button x:Name="btn_logout" HorizontalAlignment="Right" Margin="0 0 5 0" Width="50" Content="Logout" Click="Logout"/>
-        </Border>
+        
+        <Button x:Name="btn_logout" Grid.Row="0" HorizontalAlignment="Right" Margin="0 0 5 0" Width="50" Content="Logout" Click="Logout"/>
+        
         <Button x:Name="ForgetMeButton" Content="Forget me" Panel.ZIndex="1"
                 HorizontalAlignment="Right" Height="20" Width="70" Click="ForgetMeButton_Click" Grid.Row="0" Margin="0 0 60 0"/>
         <Button x:Name="SendEmailButton" Content="Send Email" Panel.ZIndex="1"
                 HorizontalAlignment="Right" Height="25" VerticalAlignment="Bottom" Click="SendEmailButton_Click" Grid.Row="1"/>
-        <ListView ItemsSource="{Binding Emails}" Grid.Row="1">
+        
+        <ListView ItemsSource="{Binding Emails}" 
+                  SelectedItem="{Binding SelectedEmail}"
+                  Grid.Row="1">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <EventSetter Event="MouseDoubleClick" Handler="ListView_MouseDoubleClick"/>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="auto" Header="Read" DisplayMemberBinding="{Binding Path=Read}"/>

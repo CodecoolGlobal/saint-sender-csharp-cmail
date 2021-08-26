@@ -2,6 +2,7 @@
 using SaintSender.DesktopUI.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using SaintSender.Core.Models.SaintSender.Core.Models;
 
 namespace SaintSender.DesktopUI.ViewModels
@@ -12,6 +13,9 @@ namespace SaintSender.DesktopUI.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         private ObservableCollection<Email> _emails;
+
+        public string test { get; set; }
+        public Email SelectedEmail { get; set; }
 
         public ObservableCollection<Email> Emails
         {
@@ -26,6 +30,15 @@ namespace SaintSender.DesktopUI.ViewModels
         public InboxViewModel()
         {
             Emails = Authentication.GetInbox();
+        }
+
+        internal void OpenDetails()
+        {
+            // hardcoded email
+            //SelectedEmail = Emails[0];
+
+            Details details = new Details(SelectedEmail);
+            details.Show();
         }
 
         internal void OpenSendEmailWindow()
