@@ -29,5 +29,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <Button Content="Refresh" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Click="RefreshButton_Click"/>
     </Grid>
 </Window>
