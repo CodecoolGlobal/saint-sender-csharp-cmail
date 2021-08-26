@@ -7,8 +7,15 @@
         mc:Ignorable="d"
         Title="Inbox" Height="450" Width="800">
     <Grid>
-        <Label Content="{Binding test}"/>
-        <ListView ItemsSource="{Binding Emails}">
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="20" MinHeight="20"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0">
+            <Button x:Name="btn_logout" HorizontalAlignment="Right" Margin="0 0 5 0" Width="50" Content="Logout" Click="Logout"/>
+        </Border>
+        <Label Content="{Binding test}" Grid.Row="1"/>
+        <ListView ItemsSource="{Binding Emails}" Grid.Row="1">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="auto" Header="Read" DisplayMemberBinding="{Binding Path=Read}"/>
