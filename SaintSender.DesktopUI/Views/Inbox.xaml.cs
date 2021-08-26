@@ -2,6 +2,7 @@ using SaintSender.DesktopUI.ViewModels;
 using System;
 using SaintSender.Core.Models;
 using System.Windows;
+using System.Windows.Input;
 
 namespace SaintSender.DesktopUI.Views
 {
