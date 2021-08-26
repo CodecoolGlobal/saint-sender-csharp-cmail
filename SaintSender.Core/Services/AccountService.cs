@@ -1,5 +1,6 @@
 ﻿using SaintSender.Core.Interfaces;
 using SaintSender.Core.Models;
+using SaintSender.Core.Models.SaintSender.Core.Models;
 
 namespace SaintSender.Core.Services
 {

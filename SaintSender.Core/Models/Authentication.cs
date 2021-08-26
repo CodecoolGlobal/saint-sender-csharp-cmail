@@ -1,5 +1,7 @@
 using MailKit;
 using MailKit.Net.Imap;
+using MailKit.Net.Smtp;
+using MimeKit;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -68,9 +70,6 @@ namespace SaintSender.Core.Models
                 IMailFolder inbox = client.Inbox;
                 inbox.Open(FolderAccess.ReadOnly);
 
-                Console.WriteLine("Total messages: {0}", inbox.Count);
-                Console.WriteLine("Recent messages: {0}", inbox.Recent);
-
                 for (int i = 0; i < inbox.Count; i++)
                 {
                     var message = inbox.GetMessage(i);
@@ -89,10 +88,34 @@ namespace SaintSender.Core.Models
 
                     emails.Add(new Email(message, sender, date, subject, read, id));
                 }
-                emails.Reverse();
 
                 client.Disconnect(true);
                 return emails;
+            }
+
+        }
+        public static void WriteEmail(Email email)
+        {
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(_account.Email, _account.Email));
+            message.To.Add(new MailboxAddress(email.To, email.To));
+            message.Subject = email.Subject;
+
+            message.Body = new TextPart("plain")
+            {
+                Text = email.Message
+            };
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, false);
+
+                // Note: only needed if the SMTP server requires authentication
+                client.Authenticate(_account.Email, _account.Password);
+
+                client.Send(message);
+                client.Disconnect(true);
             }
         }
     }

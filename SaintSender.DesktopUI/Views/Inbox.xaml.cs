@@ -2,6 +2,8 @@ using SaintSender.DesktopUI.ViewModels;
 using System;
 using SaintSender.Core.Models;
 using System.Windows;
+using System.Windows.Input;
+using SaintSender.Core.Models.SaintSender.Core.Models;
 
 namespace SaintSender.DesktopUI.Views
 {
@@ -10,8 +12,7 @@ namespace SaintSender.DesktopUI.Views
     /// </summary>
     public partial class Inbox : Window
     {
-        private InboxViewModel _vm;
-
+        private readonly InboxViewModel _vm;
         public Inbox()
         {
             // set DataContext to the ViewModel object
@@ -42,7 +43,19 @@ namespace SaintSender.DesktopUI.Views
 
         private void SendEmailButton_Click(object sender, RoutedEventArgs e)
         {
-            _vm.SendEmail();
+            _vm.OpenSendEmailWindow();
+        }
+
+        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // how do i pass the email?
+            // SelectedItem="{Binding SelectedEmail}" was the answer
+            _vm.OpenDetails();
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+           _vm.Emails = Authentication.GetInbox();
         }
     }
 }
