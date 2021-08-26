@@ -1,17 +1,7 @@
-﻿using SaintSender.DesktopUI.ViewModels;
+using SaintSender.DesktopUI.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SaintSender.Core.Models;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace SaintSender.DesktopUI.Views
 {
@@ -20,7 +10,7 @@ namespace SaintSender.DesktopUI.Views
     /// </summary>
     public partial class Inbox : Window
     {
-        private InboxViewModel _vm;
+        private readonly InboxViewModel _vm;
 
         public Inbox()
         {
@@ -30,6 +20,15 @@ namespace SaintSender.DesktopUI.Views
             InitializeComponent();
         }
 
+        private void Logout(object sender, RoutedEventArgs e)
+        {
+            if (Isolate.isoStore.FileExists(Isolate._accountFilePath))
+                Isolate.isoStore.DeleteFile(Isolate._accountFilePath);
+            MainWindow login = new MainWindow();
+            login.Show();
+            Close();
+        }
+        
         private void ForgetMeButton_Click(object sender, RoutedEventArgs e)
         {
             _vm.ForgetAccount();
@@ -37,7 +36,7 @@ namespace SaintSender.DesktopUI.Views
 
         private void SendEmailButton_Click(object sender, RoutedEventArgs e)
         {
-            _vm.SendEmail();
+            _vm.OpenSendEmailWindow();
         }
 
         private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
