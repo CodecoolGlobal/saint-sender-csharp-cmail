@@ -73,6 +73,7 @@
     <Compile Include="Models\Authentication.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Isolate.cs" />
+    <Compile Include="Models\StatusCodes.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
