@@ -42,7 +42,8 @@ namespace SaintSender.DesktopUI.Views
 
         private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            // how do i pass the email as a parameter?
+            // how do i pass the email?
+            // SelectedItem="{Binding SelectedEmail}" was the answer
             _vm.OpenDetails();
         }
     }

@@ -74,7 +74,7 @@ namespace SaintSender.DesktopUI.ViewModels
         internal void OpenDetails()
         {
             // hardcoded email
-            SelectedEmail = Emails[0];
+            //SelectedEmail = Emails[0];
 
             Details details = new Details(SelectedEmail);
             details.Show();
