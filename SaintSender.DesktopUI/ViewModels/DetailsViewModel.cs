@@ -1,5 +1,4 @@
 ﻿using SaintSender.Core.Models;
-using SaintSender.Core.Models.SaintSender.Core.Models;
 using SaintSender.DesktopUI.Views;
 using System;
 using System.Collections.Generic;

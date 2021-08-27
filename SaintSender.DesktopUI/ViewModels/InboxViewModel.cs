@@ -3,7 +3,6 @@ using SaintSender.DesktopUI.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using SaintSender.Core.Models.SaintSender.Core.Models;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -39,6 +38,11 @@ namespace SaintSender.DesktopUI.ViewModels
 
             Details details = new Details(SelectedEmail);
             details.Show();
+        }
+
+        internal void SyncOffline()
+        {
+            Isolate.SaveMail(_emails, Authentication.GetAddress());
         }
 
         internal void OpenSendEmailWindow()

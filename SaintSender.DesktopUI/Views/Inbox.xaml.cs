@@ -3,7 +3,6 @@ using System;
 using SaintSender.Core.Models;
 using System.Windows;
 using System.Windows.Input;
-using SaintSender.Core.Models.SaintSender.Core.Models;
 
 namespace SaintSender.DesktopUI.Views
 {
@@ -29,10 +28,16 @@ namespace SaintSender.DesktopUI.Views
             login.Show();
             Close();
         }
+
+        private void SyncOffline(object sender, RoutedEventArgs e)
+        {
+            _vm.SyncOffline();
+        }
         
         private void ForgetMeButton_Click(object sender, RoutedEventArgs e)
         {
             _vm.ForgetAccount();
+            Logout(null, null);
         }
 
         private void SendEmailButton_Click(object sender, RoutedEventArgs e)
