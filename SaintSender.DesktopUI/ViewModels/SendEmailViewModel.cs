@@ -1,13 +1,8 @@
 ﻿using SaintSender.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
-    class SendEmailViewModel
+    public class SendEmailViewModel
     {
         public string To { get; set; }
 

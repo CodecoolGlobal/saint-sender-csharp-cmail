@@ -1,5 +1,4 @@
 using SaintSender.DesktopUI.ViewModels;
-using System;
 using SaintSender.Core.Models;
 using System.Windows;
 using System.Windows.Input;
@@ -23,7 +22,10 @@ namespace SaintSender.DesktopUI.Views
         private void Logout(object sender, RoutedEventArgs e)
         {
             if (Isolate.isoStore.FileExists(Isolate._accountFilePath))
+            {
                 Isolate.isoStore.DeleteFile(Isolate._accountFilePath);
+            }
+
             MainWindow login = new MainWindow();
             login.Show();
             Close();
@@ -33,7 +35,7 @@ namespace SaintSender.DesktopUI.Views
         {
             _vm.SyncOffline();
         }
-        
+
         private void ForgetMeButton_Click(object sender, RoutedEventArgs e)
         {
             _vm.ForgetAccount();
@@ -54,7 +56,7 @@ namespace SaintSender.DesktopUI.Views
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-           _vm.Emails = Authentication.GetInbox();
+            _vm.Emails = Authentication.GetInbox();
         }
     }
 }

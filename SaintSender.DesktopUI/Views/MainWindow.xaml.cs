@@ -21,10 +21,12 @@ namespace SaintSender.DesktopUI
         }
 
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             StatusCodes status = _vm.Login(Email.Text, passwordBox.Password);
             if (status == StatusCodes.auth_success)
+            {
                 Close();
+            }
             else if (status == StatusCodes.auth_nonet)
             {
                 Button offline = (Button)FindName("btn_offline");
@@ -48,7 +50,9 @@ namespace SaintSender.DesktopUI
                 {
                     StatusCodes status = _vm.Login(account.Email, account.Password);
                     if (status == StatusCodes.auth_success)
+                    {
                         Close();
+                    }
                     else if (status == StatusCodes.auth_nonet)
                     {
                         Button offline = (Button)FindName("btn_offline");
@@ -62,8 +66,14 @@ namespace SaintSender.DesktopUI
         private void StartOffline(object sender, RoutedEventArgs e)
         {
             Button offline = (Button)sender;
-            if (_vm.LoginOffline()) Close();
-            else offline.IsEnabled = false;
+            if (_vm.LoginOffline())
+            {
+                Close();
+            }
+            else
+            {
+                offline.IsEnabled = false;
+            }
         }
     }
 }

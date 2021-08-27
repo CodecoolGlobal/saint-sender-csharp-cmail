@@ -1,13 +1,9 @@
-﻿using System;
-using SaintSender.Core.Models;
-using System.Linq;
-using System.Text;
+﻿using SaintSender.Core.Models;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace SaintSender.Core.Services
 {
-    class RefreshService
+    internal class RefreshService
     {
         public void Refresh()
         {

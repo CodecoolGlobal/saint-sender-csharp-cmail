@@ -1,11 +1,7 @@
 ﻿using SaintSender.Core.Models;
 using SaintSender.DesktopUI.Views;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -18,16 +14,16 @@ namespace SaintSender.DesktopUI.ViewModels
         public DateTime Date { get; set; }
         public string Subject { get; set; }
         public bool Read { get; set; }
-        public Email email { get; set; }
+        public Email Email { get; set; }
 
         public DetailsViewModel(Email email)
         {
-            this.email = email;
+            Email = email;
 
-            this.Message = email.Message;
-            this.Sender = email.Sender;
-            this.Subject = email.Subject;
-            this.Date = email.Date;
+            Message = email.Message;
+            Sender = email.Sender;
+            Subject = email.Subject;
+            Date = email.Date;
         }
 
         internal void ReplyMail()

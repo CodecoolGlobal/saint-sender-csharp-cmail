@@ -27,6 +27,8 @@
                     return "No login is saved. Offline inbox access requires a saved login.";
                 case StatusCodes.offline_nocache:
                     return "No offline inboxes available.";
+                case StatusCodes.offline_nocacheforlogin:
+                    return "The stored login has no associated offline inbox cache.";
                 default:
                     return "";
             }

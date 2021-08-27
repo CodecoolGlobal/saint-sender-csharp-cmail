@@ -2,18 +2,15 @@
 using SaintSender.DesktopUI.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
-    class InboxViewModel : INotifyPropertyChanged
-
+    public class InboxViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
         private ObservableCollection<Email> _emails;
 
-        public string test { get; set; }
         public Email SelectedEmail { get; set; }
 
         public ObservableCollection<Email> Emails

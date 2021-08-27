@@ -17,7 +17,9 @@ namespace SaintSender.Core.Models
         public static void SaveIntoIsolatedStorage(Account account)
         {
             if (isoStore.FileExists(_accountFilePath))
+            {
                 isoStore.DeleteFile(_accountFilePath);
+            }
 
             using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(_accountFilePath, FileMode.CreateNew, isoStore))
             {
@@ -34,7 +36,10 @@ namespace SaintSender.Core.Models
         public static Account ReadFromIsolatedStorage()
         {
             if (!isoStore.FileExists(_accountFilePath))
+            {
                 return null;
+            }
+
             using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(_accountFilePath, FileMode.Open, isoStore))
             {
                 using (StreamReader reader = new StreamReader(isoStream))
@@ -49,7 +54,10 @@ namespace SaintSender.Core.Models
         public static void DeleteFromIsolatedStorage()
         {
             foreach (string s in isoStore.GetFileNames($"{Authentication.GetAddress()}//*"))
+            {
                 isoStore.DeleteFile($"{Authentication.GetAddress()}//{s}");         // why doesn't it return full path when it searches for full path?
+            }
+
             isoStore.DeleteDirectory(Authentication.GetAddress());
         }
 
@@ -67,8 +75,7 @@ namespace SaintSender.Core.Models
                     int chars;
                     int readCount = 0;
 
-                    stream.Read(buffer, 0, 1);
-                    readCount++;
+                    readCount += stream.Read(buffer, 0, 1);
                     bool read = buffer[0] > 0x0;
                     System.Diagnostics.Debug.WriteLine("Read flag parsed");
 
@@ -78,7 +85,7 @@ namespace SaintSender.Core.Models
 
                     chars = (int)stream.Length - readCount;
                     stringBuffer = new byte[chars];
-                    stream.Read(stringBuffer, 0, chars);
+                    readCount += stream.Read(stringBuffer, 0, chars);
                     DateTime arrival = DateTime.Parse(Encoding.Default.GetString(stringBuffer));
 
                     string id = s;
@@ -90,8 +97,7 @@ namespace SaintSender.Core.Models
 
         private static string ReadString(FileStream stream, byte[] buffer, ref byte[] stringBuffer, ref int readCount)
         {
-            stream.Read(buffer, 0, 4);
-            readCount += 4;
+            readCount += stream.Read(buffer, 0, 4);
             int chars = FromBytes(buffer);
             string temp = "";
             System.Diagnostics.Debug.WriteLine($"chars: {chars}");
@@ -100,9 +106,8 @@ namespace SaintSender.Core.Models
                 System.Diagnostics.Debug.WriteLine($"{i}");
                 int length = Math.Min(100, chars - (i * 100));
                 stringBuffer = new byte[length];
-                stream.Read(stringBuffer, 0, length);
+                readCount += stream.Read(stringBuffer, 0, length);
                 temp += Encoding.Default.GetString(stringBuffer);
-                readCount += length;
             }
             return temp;
         }
@@ -118,7 +123,11 @@ namespace SaintSender.Core.Models
             foreach (Email e in emails)
             {
                 string filepath = $"{address}//{e.ID}";
-                if (isoStore.FileExists(filepath)) continue;
+                if (isoStore.FileExists(filepath))
+                {
+                    continue;
+                }
+
                 FileStream stream = isoStore.OpenFile(filepath, FileMode.Create);
                 stream.WriteByte((byte)(e.Read ? 0x1 : 0x0));
                 stream.Write(BytesOf(e.Sender.Length), 0, 4);

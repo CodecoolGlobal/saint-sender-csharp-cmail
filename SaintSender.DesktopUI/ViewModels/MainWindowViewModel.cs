@@ -2,9 +2,7 @@
 using SaintSender.Core.Models;
 using SaintSender.Core.Services;
 using SaintSender.DesktopUI.Views;
-using System;
 using System.ComponentModel;
-using System.Threading;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -18,7 +16,6 @@ namespace SaintSender.DesktopUI.ViewModels
         private string _greeting;
         private string _message;
         private readonly IAccountService _accountService;
-        private readonly IGreetService _greetService;
 
         /// <summary>
         /// Whenever a property value changed the subscribed event handler is called.
@@ -64,23 +61,14 @@ namespace SaintSender.DesktopUI.ViewModels
         public MainWindowViewModel()
         {
             Name = string.Empty;
-            _greetService = new GreetService();
             _accountService = new AccountService();
-        }
-
-        /// <summary>
-        /// Call a vendor service and apply its value into <see cref="Message"/> property.
-        /// </summary>
-        public void Greet()
-        {
-            Greeting = _greetService.Greet(Name);
         }
 
         public StatusCodes Login(string name, string password)
         {
             StatusCodes status = _accountService.Authenticate(name, password);
             Message = StatusCodeParser.GetStatusMessage(status);
-            
+
             if (status == StatusCodes.auth_success)
             {
                 Inbox inbox = new Inbox();

@@ -4,16 +4,14 @@ using MailKit.Net.Smtp;
 using MimeKit;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace SaintSender.Core.Models
 {
-    static public class Authentication
+    public static class Authentication
     {
-        private static Account _account;
         private static bool isOffline = false;
 
-        public static Account Account { get => _account; }
+        public static Account Account { get; private set; }
 
         public static StatusCodes AuthenticateAccount(string email, string password)
         {
@@ -21,14 +19,14 @@ namespace SaintSender.Core.Models
             {
                 return StatusCodes.auth_missingcred;
             }
-            using (var client = new ImapClient())
+            using (ImapClient client = new ImapClient())
             {
 
                 try
                 {
                     client.Connect("imap.gmail.com", 993, true);
                     client.Authenticate(email, password);
-                    _account = new Account(email, password);
+                    Account = new Account(email, password);
                 }
                 catch (Exception e)
                 {
@@ -46,7 +44,7 @@ namespace SaintSender.Core.Models
         }
         public static void OpenOffline(string email)
         {
-            _account = new Account(email, "");
+            Account = new Account(email, "");
             isOffline = true;
         }
 
@@ -59,25 +57,25 @@ namespace SaintSender.Core.Models
         {
             if (isOffline)
             {
-                return Isolate.ReadCache(_account.Email);
+                return Isolate.ReadCache(Account.Email);
             }
             ObservableCollection<Email> emails = new ObservableCollection<Email>();
-            using (var client = new ImapClient())
+            using (ImapClient client = new ImapClient())
             {
                 client.Connect("imap.gmail.com", 993, true);
 
-                client.Authenticate(_account.Email, _account.Password);
+                client.Authenticate(Account.Email, Account.Password);
                 IMailFolder inbox = client.Inbox;
-                inbox.Open(FolderAccess.ReadOnly);
+                _ = inbox.Open(FolderAccess.ReadOnly);
 
                 for (int i = 0; i < inbox.Count; i++)
                 {
-                    var message = inbox.GetMessage(i);
+                    MimeMessage message = inbox.GetMessage(i);
                     Console.WriteLine("Subject: {0}", message.Subject);
                     Console.WriteLine(message.TextBody);
                 }
 
-                foreach (var email in inbox)
+                foreach (MimeMessage email in inbox)
                 {
                     string message = email.TextBody;
                     string sender = email.From.ToString();
@@ -97,8 +95,8 @@ namespace SaintSender.Core.Models
         public static void WriteEmail(Email email)
         {
 
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress(_account.Email, _account.Email));
+            MimeMessage message = new MimeMessage();
+            message.From.Add(new MailboxAddress(Account.Email, Account.Email));
             message.To.Add(new MailboxAddress(email.To, email.To));
             message.Subject = email.Subject;
 
@@ -107,12 +105,12 @@ namespace SaintSender.Core.Models
                 Text = email.Message
             };
 
-            using (var client = new SmtpClient())
+            using (SmtpClient client = new SmtpClient())
             {
                 client.Connect("smtp.gmail.com", 587, false);
 
                 // Note: only needed if the SMTP server requires authentication
-                client.Authenticate(_account.Email, _account.Password);
+                client.Authenticate(Account.Email, Account.Password);
 
                 client.Send(message);
                 client.Disconnect(true);

@@ -5,30 +5,30 @@ using SaintSender.Core.Services;
 namespace SaintSender.Core.Tests
 {
     [TestFixture]
-    class AccountServiceTests
+    internal class AccountServiceTests
     {
 
         [Test]
         public void AccountService_ReturnSuccessStatus()
         {
-            var accountService = new AccountService();
-            var statusCode = accountService.Authenticate("cmail.test11@gmail.com", "Cmailtest11-");
+            AccountService accountService = new AccountService();
+            StatusCodes statusCode = accountService.Authenticate("cmail.test11@gmail.com", "Cmailtest11-");
             Assert.AreEqual(StatusCodes.auth_success, statusCode);
         }
 
         [Test]
         public void AccountService_ReturnMissingCredentialsStatus()
         {
-            var accountService = new AccountService();
-            var statusCode = accountService.Authenticate("", "Cmailtest11-");
+            AccountService accountService = new AccountService();
+            StatusCodes statusCode = accountService.Authenticate("", "Cmailtest11-");
             Assert.AreEqual(StatusCodes.auth_missingcred, statusCode);
         }
 
         [Test]
         public void AccountService_ReturnCorrectStatus()
         {
-            var accountService = new AccountService();
-            var statusCode = accountService.Authenticate("invalid.invalid@gmail.com", "Invalid");
+            AccountService accountService = new AccountService();
+            StatusCodes statusCode = accountService.Authenticate("invalid.invalid@gmail.com", "Invalid");
             Assert.AreEqual(StatusCodes.auth_invalidcred, statusCode);
         }
     }
