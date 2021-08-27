@@ -3,7 +3,6 @@ using System;
 using SaintSender.Core.Models;
 using System.Windows;
 using System.Windows.Input;
-using SaintSender.Core.Models.SaintSender.Core.Models;
 
 namespace SaintSender.DesktopUI.Views
 {

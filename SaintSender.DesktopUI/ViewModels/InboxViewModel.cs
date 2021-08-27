@@ -3,7 +3,6 @@ using SaintSender.DesktopUI.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using SaintSender.Core.Models.SaintSender.Core.Models;
 
 namespace SaintSender.DesktopUI.ViewModels
 {

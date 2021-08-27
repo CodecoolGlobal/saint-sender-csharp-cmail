@@ -1,5 +1,4 @@
 ﻿using SaintSender.Core.Models;
-using SaintSender.Core.Models.SaintSender.Core.Models;
 using SaintSender.DesktopUI.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
