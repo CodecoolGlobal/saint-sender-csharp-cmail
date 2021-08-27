@@ -1,6 +1,10 @@
 ﻿using SaintSender.Core.Interfaces;
+using SaintSender.Core.Models;
 using SaintSender.Core.Services;
+using SaintSender.DesktopUI.Views;
+using System;
 using System.ComponentModel;
+using System.Threading;
 
 namespace SaintSender.DesktopUI.ViewModels
 {
@@ -12,6 +16,8 @@ namespace SaintSender.DesktopUI.ViewModels
     {
         private string _name;
         private string _greeting;
+        private string _message;
+        private readonly IAccountService _accountService;
         private readonly IGreetService _greetService;
 
         /// <summary>
@@ -24,7 +30,7 @@ namespace SaintSender.DesktopUI.ViewModels
         /// </summary>
         public string Greeting
         {
-            get { return _greeting; }
+            get => _greeting;
             set
             {
                 _greeting = value;
@@ -45,18 +51,73 @@ namespace SaintSender.DesktopUI.ViewModels
             }
         }
 
+        public string Message
+        {
+            get => _message;
+            set
+            {
+                _message = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Message)));
+            }
+        }
+
         public MainWindowViewModel()
         {
             Name = string.Empty;
             _greetService = new GreetService();
+            _accountService = new AccountService();
         }
 
         /// <summary>
-        /// Call a vendor service and apply its value into <see cref="Greeting"/> property.
+        /// Call a vendor service and apply its value into <see cref="Message"/> property.
         /// </summary>
         public void Greet()
         {
             Greeting = _greetService.Greet(Name);
+        }
+
+        public StatusCodes Login(string name, string password)
+        {
+            StatusCodes status = _accountService.Authenticate(name, password);
+            Message = StatusCodeParser.GetStatusMessage(status);
+            
+            if (status == StatusCodes.auth_success)
+            {
+                Inbox inbox = new Inbox();
+                inbox.Show();
+            }
+            return status;
+        }
+
+        public void StoreAccount(Account account)
+        {
+            Isolate.SaveIntoIsolatedStorage(account);
+        }
+
+        public bool LoginOffline()
+        {
+            string[] saved = Isolate.GetOfflineAccounts();
+            if (saved.Length == 0)
+            {
+                Message = StatusCodeParser.GetStatusMessage(StatusCodes.offline_nocache);
+                return false;
+            }
+            if (!Isolate.isoStore.FileExists(Isolate._accountFilePath))
+            {
+                Message = StatusCodeParser.GetStatusMessage(StatusCodes.offline_nologin);
+                return false;
+            }
+            Account account = Isolate.ReadFromIsolatedStorage();
+            if (!Isolate.isoStore.DirectoryExists(account.Email))
+            {
+                Message = StatusCodeParser.GetStatusMessage(StatusCodes.offline_nocacheforlogin);
+                return false;
+            }
+            Authentication.OpenOffline(account.Email);
+            Inbox inbox = new Inbox();
+            inbox.Show();
+            Message = StatusCodeParser.GetStatusMessage(StatusCodes.auth_success);
+            return true;
         }
     }
 }

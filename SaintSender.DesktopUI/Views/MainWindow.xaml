@@ -5,29 +5,55 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SaintSender.DesktopUI"
         mc:Ignorable="d"
-        Title="SainSender"
+        Title="CMail"
         Height="450"
-        Width="800">
+        Width="800"
+        Loaded="Window_ContentRendered">
     <Grid>
-        <TextBox Text="{Binding Name}"
-                 ToolTip="Write a name here a click the Greet button"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="62*"/>
+            <RowDefinition Height="357*"/>
+        </Grid.RowDefinitions>
+        <TextBox 
+                 Name="Email"
+                 Text="{Binding Name}"
+                 ToolTip="Write a email address here."
                  HorizontalAlignment="Left"
                  Height="23"
-                 Margin="10,10,0,0"
-                 TextWrapping="Wrap"
+                 Margin="296,65.724,0,0"
+                 TextWrapping="NoWrap"
                  VerticalAlignment="Top"
-                 Width="120" />
-        <Button Content="Greet"
+                 Width="166" Grid.Row="1" />
+        <PasswordBox
+                 Name="passwordBox"
+                 HorizontalAlignment="Left"
+                 Height="23"
+                 Margin="296,103.724,0,0"
+                 PasswordChar="*"
+                 VerticalAlignment="Top"
+                 Width="166" Grid.Row="1" />
+        <Button Content="Login"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Width="75"
-                Margin="140,13,0,0"
-                Click="GreetBtn_Click" />
-        <TextBlock Text="{Binding Greeting}"
-                   HorizontalAlignment="Left"
-                   Margin="10,45,0,0"
-                   FontSize="28"
+                Margin="343,155.724,0,0"
+                Click="LoginBtn_Click" Grid.Row="1" />
+        <Button x:Name="btn_offline"
+                Content="Start offline"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Width="75"
+                Margin="343,179.6,0,0"
+                Click="StartOffline" Grid.Row="1"
+                IsEnabled="False"
+                Opacity="0" />
+        <TextBlock Text="{Binding Message}"
+                   HorizontalAlignment="Center"
+                   TextAlignment="Center"
+                   Margin="0,30,0,0"
+                   FontSize="13"
                    TextWrapping="Wrap"
-                   VerticalAlignment="Top" />
+                   VerticalAlignment="Top" Grid.Row="1" Width="320" Height="36" />
+        <CheckBox x:Name="Checkbox" Content="Remember me" HorizontalAlignment="Left" Margin="296,132,0,0" Grid.Row="1" VerticalAlignment="Top"/>
     </Grid>
 </Window>
